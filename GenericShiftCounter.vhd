@@ -16,6 +16,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 use WORK.AHeinzDeclares.all;
+use WORK.FPGALabDeclares.ENCODE;
 
 entity GenericShiftCounter is
 	generic
@@ -36,7 +37,7 @@ entity GenericShiftCounter is
 		reset		: in	std_logic;
 		
 		-- Counter value
-		value		: out	std_logic_vector((SIZE - 1) downto 0)
+		value		: out	integer range 0 to (SIZE - 1)
 	);
 end GenericShiftCounter;
 
@@ -69,7 +70,7 @@ begin
 	-- Rotates contents of value left
 	nextValue <= value_internal((SIZE - 2) downto 0) & value_internal((SIZE - 1));
 	
-	-- Connect internal value to output
-	value <= value_internal;
+	-- Connect internal value to output, via a conversion-to-integer function
+	value <= ENCODE(value_internal);
 	
 end Behavioral;
