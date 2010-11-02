@@ -10,6 +10,7 @@
 *.prj
 *.stx
 *.syr
+*.xmsgs
 *.xst
 *.xrpt
 *.xml
