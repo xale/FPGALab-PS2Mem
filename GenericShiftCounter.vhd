@@ -65,5 +65,11 @@ begin
 		end if;
 	end process;
 	
+	-- Next-value logic
+	-- Rotates contents of value left
+	nextValue <= value_internal((SIZE - 2) downto 0) & value_internal((SIZE - 1));
+	
+	-- Connect internal value to output
+	value <= value_internal;
+	
 end Behavioral;
-
