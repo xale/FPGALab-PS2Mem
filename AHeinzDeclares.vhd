@@ -16,6 +16,9 @@ use ieee.numeric_std.all;
 package AHeinzDeclares is
 
 	-- Types
+	-- Simple integer array
+	type IntegerArray is array(natural range <>) of integer;
+	
 	-- ROM for storing seven-segment digit values
 	type DigitROM is array(natural range <>) of std_logic_vector(6 downto 0);
 	
@@ -28,8 +31,46 @@ package AHeinzDeclares is
 	constant AL_ON	: std_logic := '0';	-- Active Low "On"
 	constant AL_OFF	: std_logic := '1';	-- Active Low "Off"
 	
+	-- PS2 Keycode to ASCII lookup table
+	constant PS2_KEYCODE_ASCII	: IntegerArray(0 to 255) :=
+	(
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- 00
+	--						Q	1				Z	S	A	W	2	
+		0,	0,	0,	0,	0,	81,	49,	0,	0,	0,	90,	83,	65,	87,	50,	0,	-- 10
+	--		C	X	D	E	4	3			sp	V	F	T	R	5	
+		0,	67,	88,	68,	69,	52,	51,	0,	0,	32,	86,	70,	84,	82,	53,	0,	-- 20
+	--		N	B	H	G	Y	6				M	J	U	7	8	
+		0,	78,	66,	72,	71,	89,	54,	0,	0,	0,	77,	74,	85,	55,	56,	0,	-- 30
+	--			K	I	O	0	9					L		P		
+		0,	0,	75,	73,	79,	48,	46,	0,	0,	0,	0,	76,	0,	80,	0,	0,	-- 40
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- 50
+	--							BS									
+		0,	0,	0,	0,	0,	0,	8,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- 60
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- 70
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- 80
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- 90
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- A0
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- B0
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- C0
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- D0
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	-- E0
+	--																
+		0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0	-- F0
+	--	0	1	2	3	4	5	6	7	8	9	A	B	C	D	E	F
+	);
+	
 	-- LCD/LED seven-segment display digits (0 through 0xF)
-	constant SEVEN_SEG_DIGITS: DigitROM(0 to 15) :=
+	constant SEVEN_SEG_DIGITS	: DigitROM(0 to 15) :=
 	(
 		"1110111", "0010010", "1011101", "1011011",	-- 0, 1, 2, 3,
 		"0111010", "1101011", "1101111", "1010010",	-- 4, 5, 6, 7,
