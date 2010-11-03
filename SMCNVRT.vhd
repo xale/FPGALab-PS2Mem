@@ -9,12 +9,13 @@
 -- Target Devices:	Xilinx Spartan3 XC3S1000
 -- Description:		State-machine-based keycode-to-ASCII converter.
 --
--- Dependencies:	IEEE standard libraries, AHeinzDeclares package,
---					FPGALabDeclares package
+-- Dependencies:	IEEE standard libraries, AHeinzDeclares package
 --
 ----------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
+
+use WORK.AHeinzDeclares.all;
 
 entity SMCNVRT is
     port
@@ -28,8 +29,8 @@ entity SMCNVRT is
 		-- Input-ready signal (assert to start conversion)
 		newcode		: in	std_logic;
 		
-		-- Input bus
-		
+		-- Input bus (one byte)
+		keycode		: in	std_logic_vector(7 downto 0);
 		
 		-- Conversion-done signal (asserted when ready for read)
 		convdone	: out	std_logic;
@@ -111,9 +112,9 @@ begin
 	-- logic external to state machine:
 	
 	-- use keycode as ROM address for ASCII value lookup
-	char <= ASCII_LC(TO_INTEGER(unsigned(keycode)));
+	char <= KeyCodeToASCII(TO_INTEGER(unsigned(keycode)));
 	
-	-- tie upper memory byte to 0.
+	-- tie upper memory byte to 0
 	hdout(15 downto 8) <= (others=>'0');
 	
 end Behavioral;
