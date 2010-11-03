@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2010-11-02T15:17:59</DateModified>
+  <DateModified>2010-11-03T10:22:56</DateModified>
   <ModuleName>GenericShiftCounter</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
   <SavedFilePath>C:/Users/Alex Heinz/Documents/FPGA Synthesis/Projects/LabPS2Mem/iseconfig/GenericShiftCounter.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>C:/Users/Alex Heinz/Documents/FPGA Synthesis/Projects/LabPS2Mem</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>C:/Users/Alex Heinz/Documents/FPGA Synthesis/Projects/LabPS2Mem\</ImplementationReportsDirectory>
   <DateInitialized>2010-11-02T15:17:59</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
