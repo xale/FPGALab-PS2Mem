@@ -112,7 +112,7 @@ begin
 	-- logic external to state machine:
 	
 	-- use keycode as ROM address for ASCII value lookup
-	char <= KeyCodeToASCII(TO_INTEGER(unsigned(keycode)));
+	char <= PS2_KEYCODE_ASCII(TO_INTEGER(unsigned(keycode)));
 	
 	-- tie upper memory byte to 0
 	hdout(15 downto 8) <= (others=>'0');
