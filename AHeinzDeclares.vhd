@@ -171,6 +171,29 @@ package AHeinzDeclares is
 	);
 	end component;
 	
+	component GenericShiftCounter
+	generic
+	(
+		-- Number of values counter can hold
+		-- Defaults to eight (i.e., 0 through 7)
+		SIZE	: natural := 8
+	);
+	port
+	(
+		-- Counter-increment clock
+		clk			: in	std_logic;
+		
+		-- Clock enable
+		clkEnable	: in	std_logic;
+		
+		-- Counter clear
+		reset		: in	std_logic;
+		
+		-- Counter value (note that this not an integer, but a bit position)
+		value		: out	std_logic_vector((SIZE - 1) downto 0)
+	);
+	end component;
+	
 end package AHeinzDeclares;
 
 package body AHeinzDeclares is

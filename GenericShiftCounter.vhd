@@ -66,7 +66,7 @@ begin
 	end process;
 	
 	-- Next-value logic
-	-- Rotates contents of value left
+	-- Rotates value left
 	nextValue <= value_internal((SIZE - 2) downto 0) & value_internal((SIZE - 1));
 	
 	-- Connect internal value to output
