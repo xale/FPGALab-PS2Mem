@@ -15,6 +15,7 @@
 *.xst
 *.xrpt
 *.xml
+*.xreport
 xst/
 _xmsgs/
 
