@@ -22,6 +22,7 @@ use ieee.numeric_std.all;
 
 use WORK.AHeinzDeclares.all;
 use WORK.FPGALabDeclares.JTAG_IFC;
+use WORK.FPGALabDeclares.SMCNVRT;
 
 entity LabPS2Mem is
 
@@ -56,10 +57,15 @@ architecture Structural of LabPS2Mem is
 	
 	-- PS/2 reader output
 	signal keycode		: std_logic_vector(7 downto 0);
-	alias KEYCODE_UPPER	: std_logic_vector(3 downto 0) is
-		keycode(7 downto 4);
-	alias KEYCODE_LOWER	: std_logic_vector(3 downto 0) is
-		keycode(3 downto 0);
+	signal newcode		: std_logic;
+	
+	-- ASCII converter output
+	signal asciiValue	: std_logic_vector(15 downto 0);
+	
+	alias DISPLAY_UPPER	: std_logic_vector(3 downto 0) is
+		asciiValue(7 downto 4);
+	alias DISPLAY_LOWER	: std_logic_vector(3 downto 0) is
+		asciiValue(3 downto 0);
 	
 begin
 	
@@ -83,15 +89,37 @@ begin
 		-- Connect inverted reset switch
 		reset => swrst_inv,
 		
-		-- Leave the 'newcode' line disconnected
-		newcode => open,
-		
-		-- Connect the 'keycode' bus to a local line
+		-- Connect the 'keycode' and 'newcode' outputs to the ASCII converter
+		newcode => newcode,
 		keycode => keycode
 	);
 	
-	-- Connect keycode bus to seven-segment display, via hex lookup table
-	ls <= NibbleToHexDigit(unsigned(KEYCODE_UPPER));
-	rs <= NibbleToHexDigit(unsigned(KEYCODE_LOWER));
+	-- Instantiate ASCII converter
+	ASCIIConvert: SMCNVRT
+	port map
+	(
+		-- Connect global clock
+		sm2clk => clk50,
+		
+		-- Connect global reset
+		reset => swrst_inv,
+		
+		-- Connect inputs from keyboard make-code reader
+		newcode => newcode,
+		keycode => keycode,
+		
+		-- Leave the 'conversion done' flag disconnected
+		convdone => open,
+		
+		-- Connect the output bus
+		hdout => asciiValue,
+		
+		-- Tie the 'write done' line high, since we don't need to delay
+		wrdone => '1'
+	);
+	
+	-- Connect output value bus to seven-segment display, via hex lookup table
+	ls <= NibbleToHexDigit(unsigned(DISPLAY_UPPER));
+	rs <= NibbleToHexDigit(unsigned(DISPLAY_LOWER));
 	
 end Structural;
