@@ -1,4 +1,6 @@
 *.doc
+*.exe
+*.cmd
 *.gise
 *.log
 *.xwbt
@@ -6,11 +8,13 @@
 *.html
 *.cmd_log
 *.lso
+*.ini
 *.ngc
 *.ngr
 *.prj
 *.stx
 *.syr
+*.wdb
 *.xmsgs
 *.xst
 *.xrpt
@@ -18,4 +22,5 @@
 *.xreport
 xst/
 _xmsgs/
+isim/
 
