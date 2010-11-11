@@ -49,10 +49,10 @@ architecture Behavioral of PS2MakeCodeReader is
 	constant CODE_LENGTH	: integer	:= 11;
 	constant LAST_BIT		: integer	:= (CODE_LENGTH - 1);
 	
-	-- Indexes of interesting bits in the code
-	constant DATA_0_INDEX		: integer	:= 9;
-	constant DATA_7_INDEX		: integer	:= 2;
-	constant PARITY_BIT_INDEX	: integer	:= 1;
+	-- Indexes of interesting bits in the code at the time when a code is latched
+	constant DATA_0_INDEX		: integer	:= 8;
+	constant DATA_7_INDEX		: integer	:= 1;
+	constant PARITY_BIT_INDEX	: integer	:= 0;
 	
 	-- State machine
 	type KB_READER_SM is
@@ -81,13 +81,21 @@ architecture Behavioral of PS2MakeCodeReader is
 	
 	-- Currently-latched output keycode
 	signal keycode_internal	: std_logic_vector(7 downto 0);
+	signal nextKeycode		: std_logic_vector(7 downto 0);
+	
+	-- Next-clock state for 'newcode' signal
+	signal nextNewcode		: std_logic;
+	
+	-- Current parity state
+	signal codeParity		: std_logic;
+	signal nextParity		: std_logic;
 	
 	-- Output of (rotating) counter storing number of bits read (11 per code)
 	-- FIXME: re-enable later
 	--signal bitsRead		: std_logic_vector((CODE_LENGTH - 1) downto 0);
 	--alias stopBitNext	: std_logic	is bitsRead((CODE_LENGTH - 2));
-	signal bitNum		: integer;
-	signal nextBitNum	: integer;
+	signal bitNum		: integer range 0 to (CODE_LENGTH - 1);
+	signal nextBitNum	: integer range 0 to (CODE_LENGTH - 1);
 	
 begin
 	
@@ -103,7 +111,7 @@ begin
 		-- On rising edge of synch clock, sample (and invert) from the PS2 clock
 		elsif rising_edge(clk) then
 		
-			bufferedClk <= NOT ps2_clk;
+			bufferedClk <= NOT ps2_clk_AL;
 			
 		end if;
 		
@@ -117,6 +125,8 @@ begin
 		if (reset = AH_ON) then
 			
 			readerState <= WAIT_MAKE;
+			currentCode <= (others => '0');
+			codeParity <= '0';
 			keycode_internal <= (others => '0');
 			bitNum <= 0;
 		
@@ -129,8 +139,12 @@ begin
 			-- Shift-in next bit from PS2 data line
 			currentCode <= nextCodeShift;
 			
-			-- Latch make keycode if finished
+			-- Accumulate parity
+			codeParity <= nextParity;
+			
+			-- Latch new make keycode if finished
 			keycode_internal <= nextKeycode;
+			newcode <= nextNewcode;
 			
 			-- Advance to next bit index
 			bitNum <= nextBitNum;
@@ -145,16 +159,21 @@ begin
 					0;
 	
 	-- State-machine logic
-	-- Advances on a clock edge if the current state is a "waiting" state, or if	
+	-- Advances on a clock edge if the current state is a "waiting" state, or if
 	-- the current state is a read/skip state, but the last bit is done
-	nextState <=	READ_MAKE when (readerState = WAIT_MAKE) else
-					WAIT_BREAK_1 when ((readerState = READ_MAKE) AND
+	nextState <=	READ_MAKE when
+						(readerState = WAIT_MAKE) else
+					WAIT_BREAK_1 when
+						((readerState = READ_MAKE) AND (bitNum = LAST_BIT)) else
+					SKIP_BREAK_1 when
+						(readerState = WAIT_BREAK_1) else
+					WAIT_BREAK_2 when
+						((readerState = SKIP_BREAK_1) AND
 						(bitNum = LAST_BIT)) else
-					SKIP_BREAK_1 when (readerState = WAIT_BREAK_1) else
-					WAIT_BREAK_2 when ((readerState = SKIP_BREAK_1) AND
-						(bitNum = LAST_BIT)) else
-					SKIP_BREAK_2 when (readerState = WAIT_BREAK_2) else
-					WAIT_MAKE when ((readerState = SKIP_BREAK_2) AND
+					SKIP_BREAK_2 when
+						(readerState = WAIT_BREAK_2) else
+					WAIT_MAKE when
+						((readerState = SKIP_BREAK_2) AND
 						(bitNum = LAST_BIT)) else
 					readerState;
 	
@@ -163,6 +182,28 @@ begin
 	nextCodeShift <= ps2_data & currentCode(0 to (CODE_LENGTH - 2));
 	
 	-- Parity-check logic
-	-- FIXME: WRITEME
+	-- XORs incoming bits; should be '1' when bit 10 is received
+	nextParity <=	(codeParity XOR ps2_data) when
+						(readerState = READ_MAKE) else
+					'0';
+	
+	-- Output code logic
+	-- Holds a value until the end of a READ_MAKE state, then checks parity and,
+	-- if the new code is valid, latches it
+	-- FIXME: check parity
+	nextKeycode <=	currentCode(DATA_7_INDEX to DATA_0_INDEX) when
+						((readerState = READ_MAKE) AND (bitNum = LAST_BIT)) else
+					keycode_internal;
+	
+	-- 'newcode' logic
+	-- Holds at zero until the end of a READ_MAKE state, then checks parity and,
+	-- if the new code is valid, pulses
+	-- FIXME: check parity
+	nextNewcode <=	AH_ON when
+						((readerState = READ_MAKE) AND (bitNum = LAST_BIT)) else
+					AH_OFF;
+	
+	-- Connect outputs to internal copies
+	keycode <= keycode_internal;
 	
 end Behavioral;
