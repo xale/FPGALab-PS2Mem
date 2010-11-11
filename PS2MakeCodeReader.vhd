@@ -49,10 +49,10 @@ architecture Behavioral of PS2MakeCodeReader is
 	constant CODE_LENGTH	: integer	:= 11;
 	constant LAST_BIT		: integer	:= (CODE_LENGTH - 1);
 	
-	-- Indexes of interesting bits in the code at the time when a code is latched
+	-- Indexes of interesting bits in the code at the time when a keycode is
+	-- latched to the output
 	constant DATA_0_INDEX		: integer	:= 8;
 	constant DATA_7_INDEX		: integer	:= 1;
-	constant PARITY_BIT_INDEX	: integer	:= 0;
 	
 	-- State machine
 	type KB_READER_SM is
@@ -90,12 +90,9 @@ architecture Behavioral of PS2MakeCodeReader is
 	signal codeParity		: std_logic;
 	signal nextParity		: std_logic;
 	
-	-- Output of (rotating) counter storing number of bits read (11 per code)
-	-- FIXME: re-enable later
-	--signal bitsRead		: std_logic_vector((CODE_LENGTH - 1) downto 0);
-	--alias stopBitNext	: std_logic	is bitsRead((CODE_LENGTH - 2));
-	signal bitNum		: integer range 0 to (CODE_LENGTH - 1);
-	signal nextBitNum	: integer range 0 to (CODE_LENGTH - 1);
+	-- Rotating counter storing number of bits read (11 per code)
+	signal bitNum		: std_logic_vector((CODE_LENGTH - 1) downto 0);
+	signal rotBitNum	: std_logic_vector((CODE_LENGTH - 1) downto 0);
 	
 begin
 	
@@ -129,7 +126,7 @@ begin
 			codeParity <= '0';
 			keycode_internal <= (others => '0');
 			newcode <= AH_OFF;
-			bitNum <= 0;
+			bitNum <= (0 => '1', others => '0');
 		
 		-- On PS2 clock edge, read bits/change state
 		elsif rising_edge(bufferedClk) then
@@ -148,16 +145,14 @@ begin
 			newcode <= nextNewcode;
 			
 			-- Advance to next bit index
-			bitNum <= nextBitNum;
+			bitNum <= rotBitNum;
 				
 		end if;
 		
 	end process;
 	
-	-- Incrementing bit-counter logic
-	-- FIXME: rotating bit-counter
-	nextBitNum <=	(bitNum + 1) when (bitNum < (CODE_LENGTH - 1)) else
-					0;
+	-- Rotating bit-counter logic
+	rotBitNum <=	bitNum((LAST_BIT - 1) downto 0) & bitNum(LAST_BIT);
 	
 	-- State-machine logic
 	-- Advances on a clock edge if the current state is a "waiting" state, or if
@@ -165,17 +160,18 @@ begin
 	nextState <=	READ_MAKE when
 						(readerState = WAIT_MAKE) else
 					WAIT_BREAK_1 when
-						((readerState = READ_MAKE) AND (bitNum = LAST_BIT)) else
+						((readerState = READ_MAKE) AND
+						(bitNum(LAST_BIT)) = '1') else
 					SKIP_BREAK_1 when
 						(readerState = WAIT_BREAK_1) else
 					WAIT_BREAK_2 when
 						((readerState = SKIP_BREAK_1) AND
-						(bitNum = LAST_BIT)) else
+						(bitNum(LAST_BIT) = '1')) else
 					SKIP_BREAK_2 when
 						(readerState = WAIT_BREAK_2) else
 					WAIT_MAKE when
 						((readerState = SKIP_BREAK_2) AND
-						(bitNum = LAST_BIT)) else
+						(bitNum(LAST_BIT) = '1')) else
 					readerState;
 	
 	-- Serial-read logic
@@ -192,7 +188,8 @@ begin
 	-- Holds a value until the end of a READ_MAKE state, then checks parity and,
 	-- if the new code is valid, latches it
 	nextKeycode <=	currentCode(DATA_7_INDEX to DATA_0_INDEX) when
-						((readerState = READ_MAKE) AND (bitNum = LAST_BIT) AND
+						((readerState = READ_MAKE) AND
+						(bitNum(LAST_BIT) = '1') AND
 						(codeParity = '1')) else
 					keycode_internal;
 	
@@ -200,7 +197,8 @@ begin
 	-- Holds at zero until the end of a READ_MAKE state, then checks parity and,
 	-- if the new code is valid, pulses
 	nextNewcode <=	AH_ON when
-						((readerState = READ_MAKE) AND (bitNum = LAST_BIT) AND
+						((readerState = READ_MAKE) AND
+						(bitNum(LAST_BIT) = '1') AND
 						(codeParity = '1')) else
 					AH_OFF;
 	
