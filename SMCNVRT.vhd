@@ -14,6 +14,7 @@
 ----------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 use WORK.AHeinzDeclares.all;
 
@@ -58,7 +59,7 @@ architecture Behavioral of SMCNVRT is
 begin
 	
 	---State machine
-	SM2: process (sm2clk, reset, SMCNVRT, newcode, writedone)
+	SM2: process (sm2clk, reset, SMCNVRT, newcode, wrdone)
 	begin
 		
 		-- On reset, go to initial state
@@ -112,7 +113,8 @@ begin
 	-- logic external to state machine:
 	
 	-- use keycode as ROM address for ASCII value lookup
-	char <= PS2_KEYCODE_ASCII(TO_INTEGER(unsigned(keycode)));
+	char <= std_logic_vector(TO_UNSIGNED(
+				PS2_KEYCODE_ASCII(TO_INTEGER(unsigned(keycode))), 8));
 	
 	-- tie upper memory byte to 0
 	hdout(15 downto 8) <= (others=>'0');
