@@ -171,6 +171,30 @@ package AHeinzDeclares is
 	);
 	end component;
 	
+	-- PS/2-keyboard make-code reader
+	component PS2MakeCodeReader
+	port
+	(
+		-- Input clock from keyboard (active-low)
+		ps2_clk_AL	: in	std_logic;
+		
+		-- Input (serial) data line from keyboard
+		ps2_data	: in	std_logic;
+		
+		-- Main synchronization clock
+		clk			: in	std_logic;
+		
+		-- Reset
+		reset		: in	std_logic;
+		
+		-- Read-complete (i.e., "new keycode latched") flag
+		newcode		: out	std_logic;
+		
+		-- One-byte keycode output
+		keycode		: out	std_logic_vector(7 downto 0)
+	);
+	end component;
+	
 end package AHeinzDeclares;
 
 package body AHeinzDeclares is
