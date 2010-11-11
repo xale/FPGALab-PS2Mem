@@ -191,17 +191,17 @@ begin
 	-- Output code logic
 	-- Holds a value until the end of a READ_MAKE state, then checks parity and,
 	-- if the new code is valid, latches it
-	-- FIXME: check parity
 	nextKeycode <=	currentCode(DATA_7_INDEX to DATA_0_INDEX) when
-						((readerState = READ_MAKE) AND (bitNum = LAST_BIT)) else
+						((readerState = READ_MAKE) AND (bitNum = LAST_BIT) AND
+						(codeParity = '1')) else
 					keycode_internal;
 	
 	-- 'newcode' logic
 	-- Holds at zero until the end of a READ_MAKE state, then checks parity and,
 	-- if the new code is valid, pulses
-	-- FIXME: check parity
 	nextNewcode <=	AH_ON when
-						((readerState = READ_MAKE) AND (bitNum = LAST_BIT)) else
+						((readerState = READ_MAKE) AND (bitNum = LAST_BIT) AND
+						(codeParity = '1')) else
 					AH_OFF;
 	
 	-- Connect outputs to internal copies
