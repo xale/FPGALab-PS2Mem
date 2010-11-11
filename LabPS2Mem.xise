@@ -15,10 +15,6 @@
   <version xil_pn:ise_version="12.2" xil_pn:schema_version="2"/>
 
   <files>
-    <file xil_pn:name="GenericShiftCounter.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
     <file xil_pn:name="AHeinzDeclares.vhd" xil_pn:type="FILE_VHDL">
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
