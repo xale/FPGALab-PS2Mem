@@ -11,6 +11,7 @@
 --					memory writer
 --
 -- Dependencies:	IEEE standard libraries, AHeinzDeclares package,
+--					FPGALabDeclares package, JTAG_IFC entity,
 --					PS2MakeCodeReader entity, SMCNVRT entity
 --
 ----------------------------------------------------------------------------------
@@ -20,6 +21,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 use WORK.AHeinzDeclares.all;
+use WORK.FPGALabDeclares.JTAG_IFC;
 
 entity LabPS2Mem is
 
