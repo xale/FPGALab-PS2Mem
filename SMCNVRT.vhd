@@ -66,6 +66,7 @@ begin
 		if (reset = AH_ON) then
 		
 			SMCNVRT <= WAITC;	--start in wait state
+			hdout(7 downto 0) <= (others => '0');
 			convdone <= AH_OFF;
 		
 		-- On clock edge, check for the circumstances to advance the state machine
