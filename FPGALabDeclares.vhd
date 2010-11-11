@@ -78,6 +78,15 @@ port(clkext:in 	std_logic;				--50 Mhz external clock
 	pdbyte:	out std_logic_vector(7 downto 0)  --port-D byte written by PC as 2 nibbles
 	);  end component;
 ---------------------------------------
+component SMCNVRT is	-- keyboard make-code to ASCII converter
+port(sm2clk: in	std_logic;	-- State-machine clock
+	reset: in	std_logic;
+	newcode: in	std_logic;	-- Input-ready signal (assert to start conversion)
+	keycode: in	std_logic_vector(7 downto 0);	-- Input bus (one byte)
+	convdone: out	std_logic;	-- Conversion-done signal (asserted when ready for read)
+	hdout: out	std_logic_vector(15 downto 0);	-- Output bus (two bytes)
+	wrdone: in	std_logic	-- Write-done signal (assert when converted value has been read)
+	);	end component;
 
 ---********************************************************
 END PACKAGE FPGALabDeclares; 
