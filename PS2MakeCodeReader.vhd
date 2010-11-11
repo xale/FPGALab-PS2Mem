@@ -128,6 +128,7 @@ begin
 			currentCode <= (others => '0');
 			codeParity <= '0';
 			keycode_internal <= (others => '0');
+			newcode <= AH_OFF;
 			bitNum <= 0;
 		
 		-- On PS2 clock edge, read bits/change state
@@ -155,7 +156,7 @@ begin
 	
 	-- Incrementing bit-counter logic
 	-- FIXME: rotating bit-counter
-	nextBitNum <=	(bitNum + 1) when (bitNum < CODE_LENGTH) else
+	nextBitNum <=	(bitNum + 1) when (bitNum < (CODE_LENGTH - 1)) else
 					0;
 	
 	-- State-machine logic
