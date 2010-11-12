@@ -84,6 +84,9 @@ architecture Structural of LabPS2Mem is
 	-- RAM write-controller "reply to converter" line
 	signal writedone	: std_logic;
 	
+	-- Shift-register buffer of last eight characters entered
+	signal lastEightChars	: std_logic_vector(63 downto 0);
+	
 	-- Aliases for LED seven-segment digits
 	alias DISPLAY_UPPER	: std_logic_vector(3 downto 0) is
 		asciiValue(7 downto 4);
@@ -150,9 +153,28 @@ begin
 		wrdone => writedone
 	);
 	
-	-- Connect ASCII value bus to seven-segment display, via hex lookup table
+	-- Display ASCII value on seven-segment display
 	ls <= NibbleToHexDigit(unsigned(DISPLAY_UPPER));
 	rs <= NibbleToHexDigit(unsigned(DISPLAY_LOWER));
+	
+	-- Write ASCII values to a shift register for display via the JTAG interface
+	process (convdone)
+	begin
+		-- Shift out a new character whenever a conversion finishes
+		if rising_edge(convdone) then
+			lastEightChars <=	lastEightChars(55 downto 0) &
+								asciiValue(7 downto 0);
+		end if;
+	end process;
+	
+	-- Instantiate JTAG interface component
+	PCBridge: JTAG_IFC
+	port map
+	(
+		bscan => open,
+		dat_to_pc => lastEightChars,
+		dat_from_pc => open
+	);
 	
 	-- Instantiate RAM-write-controller
 	-- FIXME: WRITEME
