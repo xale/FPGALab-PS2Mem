@@ -61,6 +61,7 @@ architecture Structural of LabPS2Mem is
 	
 	-- ASCII converter output
 	signal asciiValue	: std_logic_vector(15 downto 0);
+	signal convdone		: std_logic;
 	
 	-- Shift-register buffer of last eight characters entered
 	signal lastEightChars	: std_logic_vector(63 downto 0);
@@ -112,10 +113,8 @@ begin
 		newcode => newcode,
 		keycode => keycode,
 		
-		-- Leave the 'conversion done' flag disconnected
-		convdone => open,
-		
-		-- Connect the output bus
+		-- Connect the converter outputs
+		convdone => convdone,
 		hdout => asciiValue,
 		
 		-- Tie the 'write done' line high, since we don't need to delay
