@@ -9,28 +9,29 @@
          <ClosedNode>/GenericShiftCounter - Behavioral</ClosedNode>
          <ClosedNode>/LabPS2Mem - Structural/FPGALabDeclares</ClosedNode>
          <ClosedNode>/PS2MakeCodeReader - Behavioral/FPGALabDeclares</ClosedNode>
+         <ClosedNode>/XSASDRAMJ - arch</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>LabPS2Mem - Structural (C:/Users/Alex Heinz/Documents/FPGA Synthesis/Projects/LabPS2Mem/LabPS2Mem.vhd)</SelectedItem>
+         <SelectedItem>PCBridge - JTAG_IFC - ARCH (C:/Users/Alex Heinz/Documents/FPGA Synthesis/Projects/LabPS2Mem/JTAG_IFC.vhd)</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000020200000001000000010000006400000128000000020000000000000000000000000000000064ffffffff000000810000000000000002000001280000000100000000000000000000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>LabPS2Mem - Structural (C:/Users/Alex Heinz/Documents/FPGA Synthesis/Projects/LabPS2Mem/LabPS2Mem.vhd)</CurrentItem>
+      <CurrentItem>PCBridge - JTAG_IFC - ARCH (C:/Users/Alex Heinz/Documents/FPGA Synthesis/Projects/LabPS2Mem/JTAG_IFC.vhd)</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="" guiview="Process" >
       <ClosedNodes>
          <ClosedNode>Design Utilities/Compile HDL Simulation Libraries</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Design Utilities</SelectedItem>
+         <SelectedItem>Add Existing Source</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000fd000000010000000100000000000000000000000064ffffffff000000810000000000000001000000fd0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>Design Utilities</CurrentItem>
+      <CurrentItem>Add Existing Source</CurrentItem>
    </ItemView>
    <ItemView guiview="File" >
       <ClosedNodes/>
@@ -46,13 +47,13 @@
    <ItemView guiview="Library" >
       <ClosedNodes/>
       <SelectedItems>
-         <SelectedItem>FPGALabDeclares.vhd</SelectedItem>
+         <SelectedItem>AHeinzDeclares.vhd</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000000000000000100000000000000000000000000000000000000fd000000010001000100000000000000000000000064ffffffff000000810000000000000001000000fd0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>FPGALabDeclares.vhd</CurrentItem>
+      <CurrentItem>AHeinzDeclares.vhd</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="DESUT_VHDL_ARCHITECTURE" guiview="Process" >
       <ClosedNodes>
@@ -62,17 +63,16 @@
          <ClosedNode>Implement Design/Map</ClosedNode>
          <ClosedNode>Implement Design/Place &amp; Route</ClosedNode>
          <ClosedNode>Implement Design/Translate</ClosedNode>
-         <ClosedNode>Synthesize - XST</ClosedNode>
          <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Generate Programming File</SelectedItem>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000fd000000010000000100000000000000000000000064ffffffff000000810000000000000001000000fd0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>Generate Programming File</CurrentItem>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <SourceProcessView>000000ff00000000000000020000011b0000011b01000000050100000002</SourceProcessView>
    <CurrentView>Implementation</CurrentView>
@@ -120,12 +120,12 @@
          <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Add Existing Source</SelectedItem>
+         <SelectedItem/>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000fd000000010000000100000000000000000000000064ffffffff000000810000000000000001000000fd0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>Add Existing Source</CurrentItem>
+      <CurrentItem/>
    </ItemView>
 </Project>
