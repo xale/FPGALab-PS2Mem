@@ -12,13 +12,13 @@
          <ClosedNode>/XSASDRAMJ - arch</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>PCBridge - JTAG_IFC - ARCH (C:/Users/Alex Heinz/Documents/FPGA Synthesis/Projects/LabPS2Mem/JTAG_IFC.vhd)</SelectedItem>
+         <SelectedItem>xc3s1000-5ft256</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000020200000001000000010000006400000128000000020000000000000000000000000000000064ffffffff000000810000000000000002000001280000000100000000000000000000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>PCBridge - JTAG_IFC - ARCH (C:/Users/Alex Heinz/Documents/FPGA Synthesis/Projects/LabPS2Mem/JTAG_IFC.vhd)</CurrentItem>
+      <CurrentItem>xc3s1000-5ft256</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="" guiview="Process" >
       <ClosedNodes>
