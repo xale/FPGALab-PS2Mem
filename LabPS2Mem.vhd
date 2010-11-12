@@ -158,10 +158,12 @@ begin
 	rs <= NibbleToHexDigit(unsigned(DISPLAY_LOWER));
 	
 	-- Write ASCII values to a shift register for display via the JTAG interface
-	process (convdone)
+	process (convdone, reset)
 	begin
+		if (reset = AH_ON) then
+			lastEightChars <= (others => '0');
 		-- Shift out a new character whenever a conversion finishes
-		if rising_edge(convdone) then
+		elsif rising_edge(convdone) then
 			lastEightChars <=	lastEightChars(55 downto 0) &
 								asciiValue(7 downto 0);
 		end if;
