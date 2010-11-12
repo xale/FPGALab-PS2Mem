@@ -195,6 +195,30 @@ package AHeinzDeclares is
 	);
 	end component;
 	
+	-- SDRAM incrementing-address write-controller
+	component RAMWriteController
+	port
+	(
+		-- Synchronized clock from SDRAM controller
+		clk				: in	std_logic;
+		
+		-- Reset (sets next write index to 0)
+		reset			: in	std_logic;
+		
+		-- Pull high to trigger a write
+		startWrite		: in	std_logic;
+		
+		-- Request-write signal to SDRAM controller
+		writeRequest	: out	std_logic;
+		
+		-- Address at which to make the next write
+		writeAddress	: out	std_logic_vector(23 downto 0);
+		
+		-- Write-complete signal, from DRAM controller
+		writeDone		: in	std_logic
+	);
+	end component;
+	
 end package AHeinzDeclares;
 
 package body AHeinzDeclares is
