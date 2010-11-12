@@ -179,7 +179,30 @@ begin
 	);
 	
 	-- Instantiate RAM-write-controller
-	-- FIXME: WRITEME
+	WriteControl: RAMWriteController
+	port map
+	(
+		-- Connect main clock
+		clk => masterclk,
+		
+		-- Connect global reset
+		reset => reset,
+		
+		-- Connect start-write line to ASCII converter's "conversion done" flag
+		startWrite => convdone,
+		
+		-- Connect SDRAM-controller write-request line
+		writeRequest => hwr,
+		
+		-- Connect SDRAM-controller write-address bus
+		writeAddress => haddr,
+		
+		-- Connect SDRAM-controller write-done response line
+		writeDone => done
+	);
+	
+	-- Connect output of ASCII converter to SDRAM write input bus
+	hdIn <= asciiValue;
 	
 	--================ Instantiation of SDRAM control module ================--
 	URAMCTL: XSASDRAMJ
